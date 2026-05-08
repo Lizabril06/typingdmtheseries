@@ -1,5 +1,5 @@
 backend:
-  name: github
+  name: git-gateaway
   repo: Lizabril06/cast-and-plan   # ← CHANGE THIS to your GitHub username/repo
   branch: main
   commit_messages:
