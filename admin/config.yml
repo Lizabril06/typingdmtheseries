@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/cast-and-plan   # ← CHANGE THIS to your GitHub username/repo
+  repo: Lizabril06/cast-and-plan   # ← CHANGE THIS to your GitHub username/repo
   branch: main
   commit_messages:
     create: 'feat: agregar {{collection}} "{{slug}}"'
