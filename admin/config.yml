@@ -14,10 +14,7 @@ media_folder: "images"
 public_folder: "/images"
 
 # Permite que cualquiera con acceso al admin suba imágenes
-media_library:
-  name: default
-  config:
-    multiple: false
+
 
 # Vista previa en tiempo real (opcional - requiere build deploy)
 # site_url: https://TU_SITIO.netlify.app
