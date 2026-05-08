@@ -1,13 +1,13 @@
 {
-  "id": "gigi",
-  "nombre": "Gigi",
-  "foto": "",
-  "tiktok": "@gigi",
-  "instagram": "@gigi",
   "youtube": "",
-  "email": "",
+  "color": "#000000",
+  "foto": "/images/actors/p1000841.jpg",
   "bio": "",
-  "color": "#e8192c",
+  "nombre": "DITOX",
+  "activo": true,
+  "instagram": "@ditoxisdoingfine",
+  "tiktok": "@ditoxisdoingfine",
+  "id": "DITOX",
   "calendar_id": "",
-  "activo": true
+  "email": "edgardosaske@gmail.com"
 }
