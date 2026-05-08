@@ -1,5 +1,5 @@
 backend:
-  name: github
+  name: git-gateway
   repo: Lizabril06/typingdmtheseries   # ← CHANGE THIS to your GitHub username/repo
   branch: main
   commit_messages:
