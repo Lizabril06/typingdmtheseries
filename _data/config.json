@@ -1,12 +1,12 @@
 {
-  "nombre": "Cast & Plan",
-  "anio": "2026",
-  "subtitulo": "by Liz · Content Dashboard",
-  "color_rojo": "#e8192c",
-  "color_azul": "#1a3ce8",
-  "color_amarillo": "#f5c800",
   "color_verde": "#18a832",
-  "color_morado": "#8b2fc9",
   "gas_url": "",
-  "calendar_id": ""
+  "nombre": "Typing & DM The Series",
+  "color_azul": "#1a3ce8",
+  "anio": "LMTS ENT",
+  "color_morado": "#8b2fc9",
+  "subtitulo": "by Annt & Liz · Content Dashboard",
+  "calendar_id": "",
+  "color_rojo": "#e8192c",
+  "color_amarillo": "#f5c800"
 }
