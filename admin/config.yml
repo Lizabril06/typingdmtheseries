@@ -1,0 +1,346 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/cast-and-plan   # ← CHANGE THIS to your GitHub username/repo
+  branch: main
+  commit_messages:
+    create: 'feat: agregar {{collection}} "{{slug}}"'
+    update: 'update: editar {{collection}} "{{slug}}"'
+    delete: 'delete: eliminar {{collection}} "{{slug}}"'
+    uploadMedia: 'upload: imagen "{{path}}"'
+    deleteMedia: 'delete: imagen "{{path}}"'
+
+# Almacena imágenes en /images dentro del repo
+media_folder: "images"
+public_folder: "/images"
+
+# Permite que cualquiera con acceso al admin suba imágenes
+media_library:
+  name: default
+  config:
+    multiple: false
+
+# Vista previa en tiempo real (opcional - requiere build deploy)
+# site_url: https://TU_SITIO.netlify.app
+
+# Habilita el editorial workflow (borradores → revisión → publicado)
+publish_mode: editorial_workflow
+
+locale: es
+
+collections:
+  # ══════════════════════════════════════════
+  # 1. CONFIGURACIÓN GENERAL DEL PROYECTO
+  # ══════════════════════════════════════════
+  - name: "configuracion"
+    label: "⚙️ Configuración del Proyecto"
+    description: "Nombre del proyecto, colores, subtítulo y configuraciones generales"
+    files:
+      - name: "general"
+        label: "🎨 General"
+        file: "_data/config.json"
+        fields:
+          - { label: "Nombre del Proyecto", name: "nombre", widget: "string", default: "Cast & Plan" }
+          - { label: "Año", name: "anio", widget: "string", default: "2026" }
+          - { label: "Subtítulo / Crédito", name: "subtitulo", widget: "string", default: "by Liz · Content Dashboard" }
+          - { label: "Color Acento Rojo", name: "color_rojo", widget: "color", default: "#e8192c", hint: "Color principal de acento" }
+          - { label: "Color Acento Azul", name: "color_azul", widget: "color", default: "#1a3ce8", hint: "Color secundario de acento" }
+          - { label: "Color Amarillo", name: "color_amarillo", widget: "color", default: "#f5c800" }
+          - { label: "Color Verde", name: "color_verde", widget: "color", default: "#18a832" }
+          - { label: "Color Morado", name: "color_morado", widget: "color", default: "#8b2fc9" }
+          - label: "Integración Google Apps Script"
+            name: "gas_url"
+            widget: "string"
+            required: false
+            hint: "URL del Google Apps Script Web App para invitaciones automáticas de calendario"
+          - label: "Google Calendar ID Principal"
+            name: "calendar_id"
+            widget: "string"
+            required: false
+            hint: "ID del calendario público de LMTS ENT (ej: liz@lmtsent.com)"
+
+  # ══════════════════════════════════════════
+  # 2. ACTORES / CAST
+  # ══════════════════════════════════════════
+  - name: "actores"
+    label: "🎭 Actores / Cast"
+    label_singular: "Actor"
+    description: "Agrega, edita o elimina actores del cast. Sube su foto de perfil aquí."
+    folder: "_data/actores"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    slug: "{{fields.id}}"
+    summary: "{{fields.nombre}} · {{fields.tiktok}}"
+    fields:
+      - label: "ID único (sin espacios, ej: gigi)"
+        name: "id"
+        widget: "string"
+        hint: "Identificador único, sin espacios ni caracteres especiales. Ej: gigi, ant, cristian"
+        pattern: ['^[a-zA-Z0-9_-]+$', "Solo letras, números, guiones. Sin espacios ni acentos."]
+      - label: "Nombre completo"
+        name: "nombre"
+        widget: "string"
+        hint: "Nombre que aparece en el dashboard"
+      - label: "Foto de perfil"
+        name: "foto"
+        widget: "image"
+        required: false
+        hint: "Sube una foto JPG o PNG. Recomendado: cuadrada, mínimo 300x300px"
+        media_folder: "/images/actors"
+        public_folder: "/images/actors"
+      - label: "TikTok handle"
+        name: "tiktok"
+        widget: "string"
+        required: false
+        hint: "Ej: @gigi.ttv"
+      - label: "Instagram handle"
+        name: "instagram"
+        widget: "string"
+        required: false
+        hint: "Ej: @gigi_oficial"
+      - label: "YouTube handle"
+        name: "youtube"
+        widget: "string"
+        required: false
+        hint: "Ej: @GigiChannel"
+      - label: "Email"
+        name: "email"
+        widget: "string"
+        required: false
+        hint: "Email del actor (para notificaciones)"
+      - label: "Descripción / Bio"
+        name: "bio"
+        widget: "text"
+        required: false
+      - label: "Color de acento del actor"
+        name: "color"
+        widget: "color"
+        default: "#e8192c"
+        required: false
+      - label: "Google Calendar ID del actor"
+        name: "calendar_id"
+        widget: "string"
+        required: false
+        hint: "ID del calendario personal del actor (para mostrar sus eventos)"
+      - label: "Activo en el proyecto"
+        name: "activo"
+        widget: "boolean"
+        default: true
+
+  # ══════════════════════════════════════════
+  # 3. CUENTA LIMITLESS (cuenta oficial)
+  # ══════════════════════════════════════════
+  - name: "limitless"
+    label: "🎬 Cuenta Limitless"
+    description: "Información de la cuenta oficial de la serie"
+    files:
+      - name: "limitless"
+        label: "Cuenta Limitless"
+        file: "_data/limitless.json"
+        fields:
+          - label: "Foto de perfil"
+            name: "foto"
+            widget: "image"
+            required: false
+            media_folder: "/images"
+            public_folder: "/images"
+          - { label: "TikTok", name: "tiktok", widget: "string", required: false }
+          - { label: "Instagram", name: "instagram", widget: "string", required: false }
+          - { label: "YouTube", name: "youtube", widget: "string", required: false }
+          - { label: "Bio / Descripción", name: "bio", widget: "text", required: false }
+
+  # ══════════════════════════════════════════
+  # 4. NOTICIAS / NOVEDADES
+  # ══════════════════════════════════════════
+  - name: "noticias"
+    label: "📰 Noticias & Novedades"
+    label_singular: "Noticia"
+    description: "Publica noticias y novedades para el cast. Se muestran en el panel principal."
+    folder: "_data/noticias"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.titulo | slugify}}"
+    summary: "{{fields.titulo}} · {{fields.fecha}}"
+    sortable_fields: ["fecha", "titulo"]
+    view_filters:
+      - label: "Fijadas (Pinned)"
+        field: "pinned"
+        pattern: true
+    fields:
+      - label: "Título"
+        name: "titulo"
+        widget: "string"
+      - label: "Contenido / Cuerpo"
+        name: "cuerpo"
+        widget: "text"
+        hint: "El texto completo de la noticia"
+      - label: "Fecha"
+        name: "fecha"
+        widget: "datetime"
+        default: ""
+        date_format: "DD/MM/YYYY"
+        time_format: "HH:mm"
+      - label: "Fijar al inicio (Pinned)"
+        name: "pinned"
+        widget: "boolean"
+        default: false
+        hint: "Las noticias fijadas aparecen primero siempre"
+      - label: "Enviar notificación por email"
+        name: "notificar"
+        widget: "boolean"
+        default: false
+        hint: "Activa esto para notificar al cast por email cuando publiques"
+
+  # ══════════════════════════════════════════
+  # 5. SPONSORS / TAREAS PATROCINADAS
+  # ══════════════════════════════════════════
+  - name: "sponsors"
+    label: "⭐ Sponsors & Tareas"
+    label_singular: "Tarea de Sponsor"
+    description: "Crea tareas patrocinadas asignadas a actores específicos del cast"
+    folder: "_data/sponsors"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.sponsor | slugify}}-{{fields.titulo | slugify}}"
+    summary: "{{fields.sponsor}} · {{fields.titulo}}"
+    fields:
+      - label: "Nombre del Sponsor"
+        name: "sponsor"
+        widget: "string"
+        hint: "Ej: Pepsi, Nike, Amazon"
+      - label: "Título de la tarea"
+        name: "titulo"
+        widget: "string"
+      - label: "Descripción"
+        name: "descripcion"
+        widget: "text"
+        required: false
+      - label: "XP que otorga"
+        name: "xp"
+        widget: "number"
+        default: 50
+        value_type: "int"
+      - label: "Fecha límite"
+        name: "deadline"
+        widget: "date"
+        required: false
+        date_format: "YYYY-MM-DD"
+      - label: "Actores asignados"
+        name: "asignados"
+        widget: "list"
+        hint: "IDs de los actores (ej: gigi, ant, cristian). Deben coincidir con el ID del actor."
+        field:
+          label: "ID del actor"
+          name: "actor_id"
+          widget: "string"
+
+  # ══════════════════════════════════════════
+  # 6. MISIONES / SISTEMA DE LOGROS
+  # ══════════════════════════════════════════
+  - name: "misiones"
+    label: "🏆 Misiones & Logros"
+    description: "Define las misiones y recompensas del sistema de logros"
+    files:
+      - name: "misiones"
+        label: "📋 Lista de Misiones"
+        file: "_data/misiones.json"
+        fields:
+          - label: "Misiones"
+            name: "misiones"
+            widget: "list"
+            summary: "{{fields.icon}} {{fields.titulo}}"
+            fields:
+              - { label: "Emoji / Icono", name: "icon", widget: "string", default: "🎯" }
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Descripción", name: "descripcion", widget: "string", required: false }
+              - { label: "XP que otorga", name: "xp", widget: "number", default: 10, value_type: "int" }
+
+      - name: "recompensas"
+        label: "🎁 Recompensas"
+        file: "_data/recompensas.json"
+        fields:
+          - label: "Recompensas"
+            name: "recompensas"
+            widget: "list"
+            summary: "{{fields.emoji}} {{fields.nombre}} ({{fields.req}} misiones)"
+            fields:
+              - { label: "Emoji", name: "emoji", widget: "string", default: "🎁" }
+              - { label: "Nombre de la recompensa", name: "nombre", widget: "string" }
+              - { label: "Misiones requeridas para desbloquear", name: "req", widget: "number", default: 5, value_type: "int" }
+
+  # ══════════════════════════════════════════
+  # 7. PODCAST RUNDOWN (DM Podcast)
+  # ══════════════════════════════════════════
+  - name: "podcast"
+    label: "🎙 DM Podcast - Episodios"
+    label_singular: "Episodio"
+    description: "Gestiona los episodios del DM Podcast. Liz, Gigi y Ant pueden editar."
+    folder: "_data/podcast"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    slug: "ep{{fields.numero}}-{{fields.titulo | slugify}}"
+    summary: "Ep. {{fields.numero}} · {{fields.titulo}}"
+    sortable_fields: ["numero", "fecha_grabacion"]
+    fields:
+      - label: "Número de episodio"
+        name: "numero"
+        widget: "number"
+        value_type: "int"
+      - label: "Título del episodio"
+        name: "titulo"
+        widget: "string"
+      - label: "Descripción"
+        name: "descripcion"
+        widget: "text"
+        required: false
+      - label: "Fecha de grabación"
+        name: "fecha_grabacion"
+        widget: "date"
+        required: false
+      - label: "Estado"
+        name: "estado"
+        widget: "select"
+        options:
+          - { label: "📝 Borrador / Rundown", value: "borrador" }
+          - { label: "🎙 Grabado", value: "grabado" }
+          - { label: "✂️ En edición", value: "edicion" }
+          - { label: "✅ Publicado", value: "publicado" }
+        default: "borrador"
+      - label: "Notas del rundown"
+        name: "rundown"
+        widget: "markdown"
+        required: false
+        hint: "Agrega el rundown completo del episodio aquí. Soporta formato markdown."
+      - label: "Hosts del episodio"
+        name: "hosts"
+        widget: "list"
+        required: false
+        hint: "IDs de los actores que participan como hosts"
+        field:
+          label: "ID del host"
+          name: "host_id"
+          widget: "string"
+
+  # ══════════════════════════════════════════
+  # 8. IMÁGENES / MEDIA LIBRARY
+  # ══════════════════════════════════════════
+  - name: "media"
+    label: "🖼️ Galería de Imágenes"
+    description: "Gestiona y organiza las imágenes del portal. Sube fotos de actores y assets aquí."
+    files:
+      - name: "media"
+        label: "Notas sobre imágenes"
+        file: "_data/media_notes.json"
+        fields:
+          - label: "Notas"
+            name: "notas"
+            widget: "text"
+            required: false
+            hint: "Usa el botón de Media en la barra superior del admin para subir y ver todas las imágenes"

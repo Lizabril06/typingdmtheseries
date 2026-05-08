@@ -1,0 +1,8 @@
+{
+  "recompensas": [
+    { "emoji": "🥉", "nombre": "Bronce", "req": 3 },
+    { "emoji": "🥈", "nombre": "Plata", "req": 6 },
+    { "emoji": "🥇", "nombre": "Oro", "req": 10 },
+    { "emoji": "💎", "nombre": "Diamante", "req": 15 }
+  ]
+}

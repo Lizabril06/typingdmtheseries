@@ -1,0 +1,12 @@
+{
+  "name": "cast-and-plan",
+  "version": "1.0.0",
+  "description": "Cast & Plan 2026 · Content Dashboard con Decap CMS",
+  "scripts": {
+    "build": "node generate-indexes.js",
+    "dev": "node generate-indexes.js && npx serve ."
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

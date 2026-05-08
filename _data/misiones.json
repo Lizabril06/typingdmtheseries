@@ -1,0 +1,8 @@
+{
+  "misiones": [
+    { "icon": "🎬", "titulo": "Primer video publicado", "descripcion": "Publica tu primer video del mes", "xp": 10 },
+    { "icon": "📱", "titulo": "5 posts en la semana", "descripcion": "Publica 5 veces en una sola semana", "xp": 25 },
+    { "icon": "⭐", "titulo": "Sponsor completado", "descripcion": "Completa una tarea de sponsor asignada", "xp": 50 },
+    { "icon": "🏆", "titulo": "Mes completo", "descripcion": "Cumple todos los posts planificados del mes", "xp": 100 }
+  ]
+}
